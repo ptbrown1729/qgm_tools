@@ -1,5 +1,5 @@
 # qgm_tools
-Varoius tools I developed (or modified) while studying the Fermi-Hubbard model using a quantum gas microscope
+This repository contains various tools I developed (or modified) while studying the Fermi-Hubbard model using a quantum gas microscope.
 
 ## lib
 various useful functions for image processing, fitting, data analysis etc.
