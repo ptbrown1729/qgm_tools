@@ -1,0 +1,562 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{placeins}
+
+\newcommand{\ensavg}[1]{\left< #1 \right>} %ensemble average
+\newcommand{\ket}[1]{\left| #1 \right>} % for Dirac bras
+\newcommand{\bra}[1]{\left< #1 \right|} % for Dirac kets
+\newcommand{\braket}[2]{\left< #1 \vphantom{#2} \right|
+ \left. #2 \vphantom{#1} \right>} % for Dirac brackets
+\newcommand{\matrixel}[3]{\left< #1 \vphantom{#2#3} \right|
+ #2 \left| #3 \vphantom{#1#2} \right>} % for Dirac matrix elements
+\newcommand{\uvect}[1]{ \hat{\mathbf{#1}} }
+ 
+\usepackage{amsmath, amssymb, amsthm}
+
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+
+\author{Peter Brown}
+\title{Lattice}
+\begin{document}
+\maketitle
+
+Original idea (?) 10.1103/PhysRevA.73.033605.
+Kai Sun paper DOI:10.1038/NPHYS2134
+
+\section{1D Lattice}
+Suppose we have lattice potential of depth $V_o$ and lattice constant $a$,
+\begin{eqnarray}
+V(x) &=& -V_o \sin^2 \left( \frac{\pi}{a} x \right)\\
+&=& -\frac{V_o}{2} \left[ 1 - \cos(2\pi/a x) \right].
+\end{eqnarray} 
+
+The characteristic energy scale of the problem is the recoil energy as $E_R = \frac{\hbar^2}{2m} (\pi/a)^2$. We can write the Schrodinger equation after dividing by $E_R$ and making the change of variables $x \to x/a$ (i.e. using $a$ as our characteristic length scale)
+\begin{eqnarray}
+-\frac{1}{\pi^2} \partial_x^2 \psi(x) - \frac{s}{2} \left[1 - \cos(2\pi x) \right] \psi(x) = E \psi(x).
+\end{eqnarray}
+
+If we make the change of variables $\eta = \pi x$ and drop the constant energy term $-\frac{s}{2}$ then we can rewrite this in the form of Mathieu's equation
+\begin{eqnarray}
+\partial_\eta^2 \psi(\eta) + \left[E - \frac{s}{2} \cos(2 \eta) \right] \psi(\eta) &=& 0\\
+\partial_\eta^2 \psi(\eta) + \left[a - 2 p \cos(2\eta) \right] \psi(\eta) &=& 0,
+\end{eqnarray}
+and we see the substitution is $a = E$, $p = s/4$ for a red detuned lattice. For a blue detuned lattice, we have $p = -s/4$.
+
+Mathieu's equation satisfies Bloch's theorem, and thus we can write solutions of the form $\psi(\eta, a, p) = e^{i \nu(a, p) \eta} P(\eta, a, p)$, where $\nu(a,p)$ the our Bloch wavevector. Although the equation has solutions for any $a, q$ we are only interested in solutions with real exponent $\nu(a,p)$. Solutions where this exponent has an imaginary part are `unstable'.
+
+There are certain \emph{characterstic values} of $a$ which give periodic solutions to Mathieu's equation. There are two families of solutions, commonly denoted $a_n(p)$ and $b_n(p)$. The $a_n(p)$'s give solutions which have period $2\pi$, and $b_n(p)'s$ give solutions which have period $\pi$. In physical terms, the $a_n$ and $b_n$ are eigenvalues at hte center or edge of the Brillouin zone. Let $n$ be the band index, then for the even bands (with the ground band regarded as $0$), $a_n$ are the eigenvalues for $q=0$ and the $b_{n+1}$'s are the eigenvalues for $q=\pi$. For the odd bands, $b_n$ are the eigenvalues at the band center and $a_n$ at the band edge. In either case, the bandwidth is $b_{n+1} - a_n$. For the ground band, this expression can be expanded in the large $s$ limit to give the bandwidth. More commonly, this is written as an expression for the tunneling $t$,
+\begin{equation}
+\frac{1}{4} \text{BW}_{n=0} = t = \frac{4}{\sqrt{\pi}} s^{3/4} e^{-2 \sqrt{s}}.
+\end{equation}
+
+In between $a_n$ and $b_{n+1}$ we have a range of stable solutions to the Mathieu's equation. However, in between $b_n$ and $a_{n+1}$ the solutions are \emph{unstable}, and this region corresponds to the band gap.
+
+The solutions to the Mathieu equation are commonly written in terms of \emph{Mathieu cosines} and \emph{Mathieu singes}. If we write the Bloch solutions as $F(\eta, a, p) = e^{i \nu(a, p) \eta} P(\eta, a, p)$, then up to a normalization factor we define this by
+\begin{eqnarray}
+C(\eta, a, p) &=& F(\eta, a, p) + F(-\eta, a, p)\\
+S(\eta, a, p) &=& F(\eta, a, p) - F(-\eta, a, p).
+\end{eqnarray}
+
+The periodic solutions are often denoted by
+\begin{eqnarray}
+CE(n, \eta, p) &=& C(\eta, a_n(p), p)\\
+SE(n, \eta, p) &=& S(\eta, b_n(p), p).
+\end{eqnarray}
+
+Physically these are the Bloch wavefunctions at $a_n$ and $b_n$ respectively. So, for example the $q=0$ wavefunction for the $n$th band is $CE(n, \pi x, p)$ for the even bans and $SE(n+1, \pi x, p)$ for the odd bands.
+
+\section{Polarizability note}
+
+Things get rather confusing if we work with the electric field directly, as there can be many conventions involved. It is better to write expressions in terms of the intensity, which is a measurable quantity. For example, we commonly write $E = E_o e^{i(kx-\omega t)}$, and strictly speaking we should indicate what the \emph{real} electric field, i.e. is it the real part of the above expression, or something else? For example, in the Rudi Grimm review paper they take their fields to be $2 E_o(r) \cos(\omega t)$. This choice does not matter in the end, although it will change the expression for the intensity in terms of the electric field. In the Grimm paper, they have $I = 2\epsilon_o c |E_o|^2$, whereas other reference that would take $E_o(r) \cos(\omega t)$ as the real electric field list $I = \frac{1}{2} \epsilon_o c |E_o|^2$.
+
+We have $B \approx E/c$, and the intensity and energy of an atomic dipole interacting with the field is given by
+\begin{eqnarray}
+I &=& \frac{1}{\mu_o} \ensavg{E \times B}\\
+p &=& \alpha E\\
+V &=& - \frac{1}{2} \ensavg{p \cdot E}\\
+&=& - \frac{1}{2 \epsilon_o c} \text{Re}\{\alpha\} I
+\end{eqnarray}
+where $I$ is the intensity (average energy flux), and $\alpha$ is the polarizability, and $p$ is the induced dipole moment.
+
+Consider the lattice potential, and the harmonic approximation for a single well,
+\begin{eqnarray}
+V(x) &=& s \frac{E_r}{2} \cos(kx)\\
+\omega &=& \sqrt{\frac{s E_r k^2}{2m}} \label{eq:omega_lattice}.
+\end{eqnarray}
+Here $s$ is the lattice depth in units of the lattice recoil. The recoil energy is $E_r = \frac{\hbar^2 (k/2)^2}{2m} = \frac{\hbar^2 k^2}{8m}$, i.e. the kinetic energy at the edge of the Brillouin zone.
+
+\begin{eqnarray}
+\psi(x) &=& \left(\frac{m \omega}{\pi \hbar} \right)^{1/4} e^{- \frac{m \omega}{2 \hbar} x^2}\\
+&=& \left(\frac{2 \alpha}{\pi} \right)^{1/4} e^{-\alpha x^2} \\
+\alpha &=& \frac{m \omega}{2 \hbar} \label{eq:alpha_definition}
+\end{eqnarray}
+
+\begin{eqnarray}
+t &=& \int_\mathbb{R} dx \ \psi(x - a) \left(- \frac{\hbar^2}{2m} \partial_x^2 + V(x) \right) \psi(x) \\
+&=& \left(\frac{2 \alpha}{\pi} \right)^{1/2} \int_\mathbb{R} dx \ e^{-\alpha (x-a)^2} \left(- \frac{\hbar^2}{2m} \partial_x^2 + V(x) \right) e^{-\alpha x^2}\\
+&=& \left(\frac{2 \alpha}{\pi} \right)^{1/2} \int_\mathbb{R} dx \  e^{-2 \alpha x^2 + 2 \alpha a x - \alpha a^2} s \frac{E_r}{2} \cos(kx) + \nonumber \\
+&& \left( - \frac{\hbar^2}{2m} \right) \left( -2 \alpha + 4 \alpha^2 x^2 \right) e^{-2 \alpha x^2 + 2 \alpha a x - \alpha a^2} \\
+&=& e^{-\frac{\alpha a^2}{2}} e^{- \frac{k^2}{8 \alpha}} \cos\left(\frac{ka}{2} \right) \frac{s E_r}{2} + \left(\frac{-\hbar^2}{2m} \right) e^{- \frac{\alpha a^2}{2}} \left(\alpha^2 a^2 - \alpha \right) \\
+&=& E_r e^{-\frac{\alpha a^2}{2}} \left(\frac{s}{2} e^{- \frac{k^2}{8 \alpha}} \cos \left(\frac{ka}{2} \right) - \frac{4}{k^2} (\alpha^2 a^2 - \alpha) \right)
+\end{eqnarray}
+where we made extensive use of Gaussian integral formulas and, in the last line we used the fact that $E_r = \frac{\hbar^2 k^2}{8 m}$.
+
+Using eqs.~\ref{eq:alpha_definition} and \ref{eq:omega_lattice} we have
+\begin{eqnarray}
+\alpha a^2 &=& \sqrt{s} \frac{\pi^2}{2}\\
+\frac{\alpha}{k^2} &=& \frac{\alpha a^2}{4\pi^2} = \frac{\sqrt{s}}{8} \\
+\end{eqnarray}
+
+therefore, we find
+
+\begin{eqnarray}
+\frac{t}{E_r} &=& e^{-\sqrt{s} \frac{\pi^2}{4}} \left(-\frac{s}{2} e^{-\frac{1}{\sqrt{s}}} + \frac{\sqrt{s}}{2} - \frac{\pi^2}{4}s \right)
+\end{eqnarray}
+
+\section{Lattice Potential}
+
+Consider a lattice formed by a single beam, where the beam is reflected so it interesects itself at an angle $\theta$. Then the beam is retroreflected, causing four passes to interfere. We suppose the electric field of the retroreflected passes are attenuated by a factor of $r$. Suppose that the beam is polarized at angle $\alpha$ from the vertical. We align our coordinate system so that each beam is at angle $\theta/2$ from the $x$-axis, the first beam travels in the $+x$ and $+y$ directions and the second in the $+x$ and $-y$ directions. We are most interested in the case $\theta = \pi/2$, where the first and fourth passes travel along $x + y$ and the second and third travel along $x - y$. If we take $\theta = 0, \pi$, then all four passes travel along $y$. Let the wavelength of light be $\lambda = 2\pi/k$, and recall that at each mirror the component of the polarization parallel to the mirror surface changes sign (i.e. rotates by $180 \deg$). For the purpose of computing the polarization vectors, suppose that after the first pass the beam is reflected by three mirrors, the first with normal in the $+x$ direction, the second with normal in the $-y$ direction, and the third with normal in the $-x$ direction. The retroreflection mirror normal point along the direction of propogation of the retroreflected beam. In this geometry we have two arbitrary phases. It is convenient to take the first, $\phi_1$ as the phase between the first and second passes and the second, $\phi_2$ as the phase between the second and third passes. These phases account for both the path length and the change of polarization due to each mirror reflection. After defining these, the phase of the fourth beam relative to the others is fixed. We choose the phases of our beams to match the convention in the Kai-Sun paper, i.e. $e^{i\phi_1} = -1$ and $e^{2i\phi_2} = 1$. The electric fields of the first two passes are
+
+\begin{eqnarray}
+  E_1 &=& 
+  \begin{pmatrix}
+  \sin(\alpha) \sin(\theta/2)\\
+  -\sin(\alpha) \cos(\theta/2)\\
+  \cos(\alpha)
+  \end{pmatrix}
+  E_o e^{ik(x\cos(\theta/2) + y\sin(\theta/2))} e^{-i \omega t} \\
+  E_2 &=&
+   -\begin{pmatrix}
+  \sin(\alpha) \sin(\theta/2)\\
+  \sin(\alpha) \cos(\theta/2)\\
+  \cos(\alpha)
+  \end{pmatrix} 
+  E_o e^{ik(x\cos(\theta/2) - y\sin(\theta/2))} e^{-i \omega t}\\
+  E_3 &=& -
+   \begin{pmatrix}
+  \sin(\alpha) \sin(\theta/2)\\
+  \sin(\alpha) \cos(\theta/2)\\
+  \cos(\alpha)
+  \end{pmatrix} 
+  r E_o e^{-ik(x\cos(\theta/2) - y\sin(\theta/2))} e^{-i \omega t} \\
+  E_4 &=&  
+  \begin{pmatrix}
+  \sin(\alpha) \sin(\theta/2)\\
+  -\sin(\alpha) \cos(\theta/2)\\
+  \cos(\alpha)
+  \end{pmatrix}
+  r E_o e^{-ik(x\cos(\theta/2) + y\sin(\theta/2))} e^{-i \omega t}. 
+\end{eqnarray}
+
+Note that the negative signs here amount to changing the phase of these two lattice beams, which only shifts the lattice pattern in the plane.
+
+The total potential formed by these beams is
+\begin{eqnarray}
+  V &=& -\chi \left|E_1 + E_2 + E_3 + E_4 \right|^2
+\end{eqnarray}
+where $\chi$ is related to the atomic polarizability. $\chi>0$ corresponds to red-detuned light (attractive potential) and $\chi<0$ corresponds to a repulsive potential. We summarize the contribution of each interference to the total potential in table~\ref{tab:potential_per_pass}
+
+
+\begin{table}
+\begin{tabular}{|c|l|l|}
+\hline
+Beams & Vertical Polarization & Horizontal Polarization\\
+\hline
+DC Part & $2(1+r^2)$ & $2(1+r^2)$\\
+\hline
+$1 \leftrightarrow 2$ & $-2 \cos[2ky \sin(\theta/2)]$ & $ 2 \cos[2ky \sin(\theta/2)] \cos(\theta)$\\
+\hline
+$1 \leftrightarrow 3$ &  $ - 2r \cos[2kx \cos(\theta/2)]$ & $ 2 r \cos[2kx \cos(\theta/2)] \cos(\theta)$\\
+\hline
+$1 \leftrightarrow 4$ & $ 2r \cos[2kx \cos(\theta/2) + 2ky \sin(\theta/2)]$ & $2r \cos[2kx\cos(\theta/2) + 2k_y\sin(\theta/2)]$\\
+\hline
+$2 \leftrightarrow 3$ & $2r \cos[2kx \cos(\theta/2) - 2ky \sin(\theta/2)]$ & $2r \cos[2kx\cos(\theta/2) - 2k_y\sin(\theta/2)]$\\
+\hline
+$2 \leftrightarrow 4$ & $-2r \cos[2kx \cos(\theta/2) ]$ & $2 r \cos[2kx \cos(\theta/2)] \cos(\theta)$\\
+\hline
+$3 \leftrightarrow 4$ & $-2r^2 \cos[2ky \sin(\theta/2)]$ & $2r^2 \cos[2ky \sin(\theta/2))] \cos(\theta)$\\
+\hline
+\end{tabular}
+\caption{Potential contributions from each pair of beams divided by $-\chi |E_o|^2$.}
+\label{tab:potential_per_pass}
+\end{table}
+
+The vertically polarized components of all four beams interfere, creating a four-fold lattice,
+\begin{eqnarray}
+V_4(x,y) &=& -\chi |E_o|^2 \cos^2(\alpha) 2\big\{ (1 + r^2) - (1 + r^2)\cos[2ky \sin(\theta/2)] - 2r \cos[2kx\cos(\theta/2)] \nonumber \\
+    && + 2r \cos[2kx\cos(\theta/2)] \cos[2ky\sin(\theta/2)] \big\} \nonumber \\
+	&=& -\chi |E_o|^2 \cos^2(\alpha) 2(1 + r^2 - 2r \cos[2kx\cos(\theta/2)]) \times \left( 1 - \cos[2ky\sin(\theta/2)] \right) \nonumber.
+\end{eqnarray}
+
+The portion from the horizontal polarization is
+\begin{eqnarray}
+V_\perp(x,y) &=& -\chi |E_o|^2 \sin^2(\alpha) 2 \Big\{ 1 + r^2 + 2r \cos[2kx \cos(\theta/2)] \cos[2ky \cos(\theta/2)] \nonumber\\
+	&& + \cos(\theta) \left[(1+r^2)\cos[2ky \sin(\theta/2)] + 2r \cos[2kx \cos(\theta/2)] \right]  \big\}.
+\end{eqnarray}
+
+Here the first line is the potential from the interference of the horizontal polarization which forms a separable square lattice, and the second line is a correction to this lattice due to the fact our beams are not orthogonal (i.e. $\theta \neq \pi/2$).
+
+We can also write the total potential
+\begin{eqnarray}
+V(x,y) &=& V_4(x,y) + V_\perp(x,y) \nonumber\\
+&=& -\chi |E_o|^2 2 \Big\{ (1+r^2) + 2r \cos[2kx \cos(\theta/2)] \cos[2ky \sin(\theta/2)] \nonumber\\
+&& - [\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha)]  \left( (1+r^2)\cos[2ky\sin(\theta/2)] + 2r \cos[2kx\cos(\theta/2)] \right)  \Big\} \label{eq:total_potential}.
+\end{eqnarray}
+
+Here the top line gives a separable square lattice with principle axes along $x \cos(\theta/2) \pm y\sin(\theta/2)$, which we see is present regardless of our polarization angle $\alpha$. The second line describe a a lattice rotated by $\pi/4$ with respect to the separable lattice term and spacing $\sqrt{2}$ larger than that square lattice.
+
+To determine the depth of our potential, we evaluate it at several points
+
+\begin{table}
+\begin{tabular}{|c|c|}
+\hline
+$(2kx\cos(\theta/2), 2ky\sin(\theta/2))$ & $V(x,y)$\\
+\hline
+$(0, 0)$ & $ 2(1+r)^2 \left(1 - \cos^2(\alpha) + \cos(\theta)\sin^2(\alpha) \right)$\\
+\hline
+$(\pi, 0)$ & $2(1-r)^2 \left(1 - \cos^2(\alpha) + \cos(\theta)\sin^2(\alpha) \right)$\\
+\hline
+$(0, \pi)$ & $2(1-r)^2 \left(1 + \cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right)$\\
+\hline
+$(\pi, \pi)$ & $2(1+r)^2 \left(1 + \cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right)$\\
+\hline
+\end{tabular}
+\caption{Potential value at selected points in real space divided by $- \chi |E_o|^2$.}
+\end{table}
+
+In the case $\cos(\theta) \geq 0$, i.e. $-\pi/2 \leq \theta \leq \pi/2$ the maximum and minimum are $(\pi, \pi)$ and $(\pi, 0)$ respectively. In the case $\cos(\theta) > 0$, $\pi/2 \leq \theta \leq 3\pi/2$, we note that our problem is symmetric if we send $x \to y$, $y \to -x$, $e^{i\phi_1} \to -e^{i\phi_1}$and $\theta = \pi/2 + \eta \to \pi/2 - \eta$, so the depth should be the same in that case. The total depth is 
+\begin{eqnarray}
+d &=& |\chi| |E_o|^2 \times 4 \left[ (1+r^2) \left( \cos^2(\alpha) - \cos(\theta) \sin^2(\alpha) \right) + 2r \right].
+\end{eqnarray}
+We typically rewrite the depth in terms of the lattice recoil, $s = d / E_r$.
+
+
+In the case $\alpha=0$, the depth is $4(1 + 2r + r^2)$. We always have perfect deconstructive interference ($I_4(x,y) = 0$ at $(a_x/2, 0)$. If we suppose our lattice is red detuned ($\chi > 0$), we find
+
+\begin{eqnarray}
+  V_4(x,y)&=& -s E_r \left(\frac{1 + r^2 - 2r \cos[2kx\cos(\theta/2)]}{2(1 + 2r + r^2)} \times \left( 1 - \cos[2ky\sin(\theta/2)] \right)\right),
+\end{eqnarray}
+
+where $s$ is the lattice depth in units of the lattice recoil. Here the potential runs from $0$ to $-sE_r$ --- note that this is the physical choice for the energy offset because it ensures that the potential is $0$ where the intensity is $0$.
+
+The fourier components for our red-detuned potential are
+\begin{eqnarray}
+V_{q_x = 0, q_y = 0} &=& -s E_r \frac{2(1+r^2)}{4 \left[(1 + r^2) \left(\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right) + 2r \right]} \\
+V_{q_x = \pm 2k \cos(\theta/2), q_y = 0} &=& s E_r\frac{2r \left(\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right)}{4 \left[(1 + r^2) \left(\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right) + 2r \right]}\\
+V_{q_x = 0, q_y = \pm 2k \sin(\theta/2)} &=& s E_r \frac{(1 + r^2) \left(\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right)}{4 \left[(1 + r^2) \left(\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right) + 2r \right]} \\
+V_{q_x = \pm 2k \cos(\theta/2), q_y = \pm 2k \sin(\theta/2)} &=& \nonumber \\
+V_{q_x = \pm 2k \cos(\theta/2), q_y = \mp 2k \sin(\theta/2)} &=& -s E_r \frac{r}{4 \left[(1 + r^2) \left(\cos^2(\alpha) - \cos(\theta)\sin^2(\alpha) \right) + 2r \right]},
+\end{eqnarray}
+and we have to multiply these by $-1$ to get the Fourier components for a blue detuned lattice.
+
+Note that these components are not unique -- they will look different if we choose a different center for our coordinate system. If we choose a new center $\mathbf{r}_o$, then the Fourier components with respect to that center will be related to these by $\tilde{V}_K = e^{i \mathbf{K} \cdot \mathbf{r}_o} V_K$. In particular, we see that by choose $r_o = (a_x/2, a_y/2)$ we can change the sign of the components $V_{q_x = \pm 2k \cos(\theta/2), q_y = 0}$ and $V_{q_x = 0, q_y = \pm 2k \sin(\theta/2)}$ while leaving the others fixed. The convention we've adopted above puts the potential the potential maximum (i.e. $V(x,y) = 0$) at $(x,y) = (0,0)$. Flipping the signs as described here corresponds to placing the minimum at the origin.
+
+
+The axes of the lattice are along the x and y directions and we have the lattice spacings
+\begin{eqnarray}
+  a_x &=& \frac{2\pi}{2k\cos(\theta/2)} = \frac{\lambda}{2\cos(\theta/2)} \\
+  a_y &=& \frac{2\pi}{2k\sin(\theta/2)} = \frac{\lambda}{2\sin(\theta/2)} \\
+  \theta &=& 2 \arctan \left( \frac{a_x}{a_y} \right).
+\end{eqnarray}
+
+In the case $\theta = \pi/2$ and $\alpha = \pi/2$ our lattice is instead along the $x\pm y$ directions with a shorter spacing, $a = \frac{\lambda}{2}$. We are free to use the previous description in this case, but it no longer describes the smallest periodicity of the lattice.
+
+
+In the Kai-Sun paper, where we first saw this lattice (DOI:10.1038/NPHYS2134), they assumed $r=1$, $\theta = \pi/2$, $e^{i\phi_1} = -1$ and $e^{2i\phi_2} = 1$ and parametrized this lattice as
+\begin{eqnarray}
+  V_1 &=& -\chi |E_o|^2 \cos^2(\alpha) \\
+  V_2 &=& -\chi |E_o|^2 /2 \\
+  V(x,y) &=& -V_1 [\cos(k_l x) + \cos(k_l y)] + V_2[\cos(k_l x+k_l y) + \cos(k_l x - k_l y)] - \chi |E_o|^2\\
+  &=& -V_1 [\cos(\sqrt{2} k x) + \cos(\sqrt{2} k y)] + V_2 \left[\cos \left(2 k \frac{x+y}{\sqrt{2}} \right) + \cos \left(2 k \frac{x-y}{\sqrt{2}}\right) \right] - \chi |E_o|^2\\
+\end{eqnarray}
+where $x$ and $y$ are coordinates along the principle axes of the lattice as above, $k_l = \sqrt{2}k$ is the lattice wavenumber, and $\chi$ is the real part of the susceptibility. Note that this form agrees with our result, eq.~\ref{eq:total_potential}.  Comparing with the Fourier components above (which are \emph{half} the value of the cosine amplitude) we find
+\begin{eqnarray}
+V_1/E_r &=& -s \frac{\cos^2(\alpha)}{1 + \cos^2(\alpha)}\\
+V_2/E_r &=& -s \frac{1/2}{1 + \cos^2(\alpha)}
+\end{eqnarray}
+where $V_1$ is half of the four-fold lattice depth and $V_2$ is half of the perpendicular lattice depth. These confirm the ratio given in the Kai-Sun paper, $V_1/V_2 = 2 \cos^2(\alpha)$.
+
+One interesting feature of $\alpha=0$ lattice is the hopping barrier between sites is the same as the lattice depth
+
+\section{Phases}
+
+Suppose that the path length between the first and second passes is $l_1$, and the path length from the retro-mirror to the lattice is $l_2$. We have
+
+\begin{eqnarray}
+  E_1 &=& E_o e^{ikx} \\
+  E_2 &=& E_o e^{-iky + ikl_1}\\
+  E_3 &=& E_o e^{iky + ik(l_1 + 2l_2)}\\
+  E_4 &=& E_o e^{-ikx + ik(2l_1 + 2l_2)},
+\end{eqnarray}
+
+which gives
+
+\begin{eqnarray}
+V(x,y) &\propto& 4 + 2 \cos[2k(x - l_1 - l_2)] + 2 \cos[2k(y-l_2)] \\
+&& + 4 \cos[kx + ky - k(l_1 + 2 l_2)] + 4 \cos(kx - ky - kl_1) \\
+&=& V_o(x - (l_1 + l_2), y - l_2), \label{eq:latt-shaking}
+\end{eqnarray}
+where $V_o$ is the lattice potential with these phases set to zero.
+
+In these coordinates, the principle lattice axes are along the diagonals. We see that changing $l_1$ translates the lattice along the $x$ direction, i.e. it shakes the lattice along a diagonal. On the other hand, changing $l_2$ shakes the lattice along one of the principle axes. Because $l_2$ shakes both $x$ and $y$ directions by length $l_2$ we expect it will shack the $x+y$ direction by length $\sqrt{2} l_2$. To verify this intuition, we transform our potential to coordinates $(x_l, y_l)$ oriented along the lattice axes,
+
+\begin{eqnarray}
+\begin{pmatrix}
+x_l \\
+y_l
+\end{pmatrix}
+&=&
+\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1 & 1\\
+-1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix}\\
+\tilde{V}(x_l, y_l) &:=& V(T^{-1}(x_l, y_l))\\
+&=& V \left(\frac{x_l - y_l}{\sqrt{2}}, \frac{x_l + y_l}{\sqrt{2}} \right).
+\end{eqnarray}
+
+If we make the same substitution as in eq.~\ref{eq:latt-shaking} and suppose that we can express these shifts as $x_l - a$ and $y_l - b$, solving for these yields
+\begin{eqnarray}
+x_l &\rightarrow& x_l - \frac{l_1}{\sqrt{2}} - \sqrt{2}l_2\\
+y_l &\rightarrow& y_l - \frac{l_1}{\sqrt{2}}\\
+\tilde{V}(x_l, y_l) &\rightarrow& \tilde{V}\left(x_l - \frac{l_1}{\sqrt{2}} - \sqrt{2}l_2, y_l - \frac{l_1}{\sqrt{2}}\right),
+\end{eqnarray}
+which confirms that the shaking amplitude along $x_l$ is $\sqrt{2}l_2$. The shaking amplitude along $x$ was easier to understand in the other coordinates, but we again see that it is $l_1$.
+
+\section{Band structure for an arbitrary potential}
+
+Suppose we have a periodic potential $V(\mathbf{r})$ with lattice vectors $\mathbf{a}_1, \mathbf{a}_2, \mathbf{a}_3$ and reciprocal lattice basis vectors $\mathbf{b}_1, \mathbf{b}_2, \mathbf{b}_3$. By assumption, we have $\mathbf{a_i} \cdot \mathbf{b_j} = 2 \pi \delta_{ij}$.
+
+We can expand our potential in Fourier components
+\begin{eqnarray}
+V(\mathbf{r}) &=& \sum_\mathbf{K}  V_\mathbf{K} e^{i\mathbf{K} \cdot \mathbf{r}}\\
+V_\mathbf{K} &=& \frac{1}{a^2} \int_a d\mathbf{r} \ V(r) e^{-i\mathbf{K} \cdot \mathbf{r}}.
+\end{eqnarray}
+We choose this definition of the Fourier transform (instead of my preferred one where $+i$ appears in the definition of $V_\mathbf{K}$) because this will make our Bloch wavefunctions have exponential factors of $e^{iqr}$ instead of $e^{-iqr}$. As the potential is a periodic function, it is natural to integrate only over the unit cell. This avoids any convergence issues for the infinite integral. It also modifies the normalization relation.
+
+For the wavefunction, we use the infinite integral transform
+\begin{eqnarray}
+\psi(\mathbf{r}) &=& \int_\mathbb{R} d\mathbf{q} \ \psi_\mathbf{q} e^{i \mathbf{q} \cdot \mathbf{r}} \\
+\psi_\mathbf{q} &=& \frac{1}{2\pi} \int_\mathbb{R} d\mathbf{r} \ \psi(\mathbf{r}) e^{-i \mathbf{q} \cdot \mathbf{r}}
+\end{eqnarray}
+
+Suppose that our space is periodic after $N_1, N_2, N_3$ lattice sites in each direction respectively. Then for our eigenfunctions, which are Bloch wavefunctions we require 
+\begin{eqnarray}
+\psi_\mathbf{q}(\mathbf{r}) &=& \psi_\mathbf{q}\left(\mathbf{r} + \sum_i N_i\mathbf{a}_i\right) \\
+1 &=& \exp\left(i \sum_i N_i \mathbf{q} \cdot\mathbf{a}_i \right).
+\end{eqnarray}
+
+This is satisfied when $N_i \mathbf{q} \cdot \mathbf{a}_i = 2\pi n$ for some integer $n$. Comparing with the orthogonality relationship for the reciprocal lattice vectors, we find that
+\begin{eqnarray}
+\mathbf{q} &=& \sum_i \frac{n_i}{N_i} \mathbf{b}_i \\
+&& n_i \in \{0, ..., N_i \}.
+\end{eqnarray}
+
+We can rewrite the single-particle Schrodinger equation taking into account the periodicity of the lattice
+
+\begin{eqnarray}
+-\frac{\hbar^2}{2m} \nabla^2 \psi + V \psi &=& E \psi \\
+-\frac{\hbar^2}{2m} \nabla^2 \frac{1}{2\pi} \int d\mathbf{q} \ \psi_\mathbf{q} e^{i \mathbf{q} \cdot \mathbf{r}} + \frac{1}{a^2} \sum_\mathbf{K} \frac{1}{2\pi} \int_\mathbf{q} \ V_\mathbf{K} \psi_\mathbf{q} e^{i (\mathbf{q} + \mathbf{K}) \cdot \mathbf{r}} &=& E \frac{1}{2\pi} \int d\mathbf{q} \ \psi_\mathbf{q} e^{i \mathbf{q} \cdot \mathbf{r}} \\
+\frac{\hbar^2 \mathbf{q}^2}{2m} \psi_\mathbf{q} + \frac{1}{a^2} \sum_\mathbf{K} V_\mathbf{K} \psi_{\mathbf{q} - \mathbf{K}} &=& E \psi_\mathbf{q}.
+\end{eqnarray}
+
+As we expect, the potential can couple basis states with different momentum. Due to momentum conservation, this can only if the potential has a Fourier component with a given momentum. In particular, the only momenta that are coupled are those that differ by a reciprocal lattice vector.
+
+Now, we pick $\mathbf{q}' = \mathbf{q} - \mathbf{Q}$, where $\mathbf{q}'$ is a vector in the Brillouin zone. The previous equation becomes
+
+\begin{eqnarray}
+\frac{\hbar^2 (\mathbf{q}' - \mathbf{Q})^2}{2m} \psi_{\mathbf{q}' - \mathbf{Q}} + \frac{1}{a^2} \sum_\mathbf{K} V_\mathbf{K} \psi_{\mathbf{q}' - \mathbf{Q} - \mathbf{K}} &=& E \psi_{\mathbf{q}' - \mathbf{Q}}\\
+\frac{\hbar^2 (\mathbf{q}' - \mathbf{Q})^2}{2m} \psi_{\mathbf{q}' - \mathbf{Q}} + \frac{1}{a^2} \sum_{\mathbf{K}'} V_{\mathbf{K}' - \mathbf{Q}} \psi_{\mathbf{q}' - \mathbf{K}'} &=& E \psi_{\mathbf{q}' - \mathbf{Q}},
+\end{eqnarray}
+where we took $\mathbf{K}' = \mathbf{K} + \mathbf{Q}$.
+
+We can cast this as a matrix equation. Our indices are the $\mathbf{Q}$'s, our vectors are $\psi^\mathbf{q}_\mathbf{Q} = \psi_{\mathbf{q} - \mathbf{Q}}$, and we define a potential matrix $V_{\mathbf{K}\mathbf{Q}} =  V_{\mathbf{K} - \mathbf{Q}}$. The fact that only momenta different by a reciprocal lattice vector are coupled implies that our problem is decoupled for the different $\mathbf{q}$'s in the Brillouin zone. Therefore we have a number of matrix equations which can be solved in parallel.
+
+Our final matrix equation is the eigenvalue problem
+
+\begin{eqnarray}
+\sum_\mathbf{K} \left(\frac{\hbar^2}{2m} (\mathbf{q} - \mathbf{Q})^2 \delta_{\mathbf{K}\mathbf{Q}} + V_{\mathbf{K}\mathbf{Q}} \right) \psi^\mathbf{q}_\mathbf{K} &=& E \psi^\mathbf{q}_\mathbf{Q}. 
+\label{eq:kspace_schrodinger}
+\end{eqnarray}
+
+Solving a 2D lattice problem on a computer requires some cleverness with choosing how to index the reciprocal lattice vectors. We must map the natural two indices onto a single index.
+
+As a brief digression, we note that if we change the zero of our real space coordinates, i.e. take a new potential which is centered at $(x_o, y_o)$, $\tilde{V}(x,y) = V(x-x_o, y-y_o)$, then we can show $\tilde{V}_K = e^{-i \mathbf{K} \cdot \mathbf{r}_o}$. Then eq.~\ref{eq:kspace_schrodinger} above becomes
+\begin{eqnarray}
+\sum_\mathbf{K} \left(\frac{\hbar^2}{2m} (\mathbf{q} - \mathbf{Q})^2 \delta_{\mathbf{K}\mathbf{Q}} + V_{\mathbf{K}\mathbf{Q}} \right) e^{-i \mathbf{K} \cdot \mathbf{r}_o}\tilde{\psi}^\mathbf{q}_\mathbf{K} &=& E e^{-i \mathbf{Q} \cdot \mathbf{r}_o} \tilde{\psi}^\mathbf{q}_\mathbf{Q},
+\end{eqnarray}
+which shows that 
+\begin{equation}
+\tilde{\psi}^\mathbf{q}_\mathbf{Q} = e^{i \mathbf{Q} \cdot \mathbf{r}_o} \psi^\mathbf{q}_\mathbf{Q}.
+\label{eq:bloch_fn_shifted_origin}
+\end{equation}
+
+\section{Determining Tight-Binding Parameters from the Band Structure}
+
+Suppose we have a tight-binding model on a two dimensional square lattice with imbalanced nearest-neighbor hoppings $t_x$ and $t_y$, and diagonal neighbor hopping $t_d$. Then we have the following tight-binding model
+
+\begin{eqnarray}
+  H &=& \sum_{i,j} -t_x c^\dag_{(i_x,j_x)} c_{(i_x + 1,j_x)} - t_y c^\dag_{(i_x, j_x)} c_{(i_x, j_x + 1)} \\
+  &&- t_d c^\dag_{(i_x, j_x)} c_{(i_x + 1, j_x + 1)} - t_d c^\dag_{(i_x, j_x)} c_{(i_x -1 , j_x + 1)} \\
+    &=& \sum_{k_x, k_y} -2 \left[ t_x \cos(kx) + t_y \cos(ky) + t_d \cos(kx+ky) + t_d \cos(kx-ky) \right] n_\mathbf{k}.
+\end{eqnarray}
+
+If we have the above band structure with possibly a constant offset $\epsilon_o$, we find
+\begin{eqnarray}
+\epsilon(0, \pi) &=& -2 t_x + 2 t_y + 4 t_d + \epsilon_o\\
+\epsilon(\pi, 0) &=& +2 t_x - 2 t_y + 4 t_d + \epsilon_o\\
+\epsilon(0, 0) &=& -2t_x - 2t_y - 4t_d + \epsilon_o\\
+\epsilon(\pi, \pi) &=& +2t_x + 2t_y - 4t_d + \epsilon_o.
+\end{eqnarray}
+
+Then we have certain convenient combinations
+\begin{eqnarray}
+\epsilon(0, \pi) - \epsilon(\pi, \pi) &=& -4t_x + 8t_d\\
+\epsilon(0, \pi) - \epsilon(0, 0) &=& 4 t_y + 8 t_d\\
+\epsilon(\pi, 0) - \epsilon(\pi, \pi) &=& -4t_y + 8t_d\\
+\epsilon(\pi, 0) - \epsilon(0, 0) &=& 4t_x + 8 t_d\\
+\epsilon(0, 0) - \epsilon(\pi, \pi) &=& -4t_x - 4t_y\\
+\epsilon(0, \pi) - \epsilon(\pi, 0) &=& 4t_y - 4t_x,
+\end{eqnarray}
+
+which give us the tight-binding parameters
+
+\begin{eqnarray}
+  t_x &=& \frac{1}{8} \left\{ \left[ \epsilon(\pi, 0) - \epsilon(0, 0)\right] + \left[\epsilon(\pi, \pi) - \epsilon(0, \pi) \right] \right\}\\
+  t_y &=& \frac{1}{8} \left\{ \left[ \epsilon(0, \pi) - \epsilon(0, 0) \right] + \left[\epsilon(\pi, \pi)  - \epsilon(\pi, 0) \right] \right\}\\
+  t_\text{avg} &=& \frac{1}{8} \left[ \epsilon(\pi, \pi) - \epsilon(0,0) \right]\\
+  t_d &=& \frac{1}{16} \left\{ \left[ \epsilon(0, \pi) - \epsilon(0, 0) \right] + \left[\epsilon(\pi, 0) - \epsilon(\pi, \pi) \right] \right\}\\
+  &=& \frac{1}{16} \left\{\epsilon(0, \pi) + \epsilon(\pi, 0) - \epsilon(0, 0) - \epsilon(\pi, \pi) \right\}.
+\end{eqnarray}
+
+For the first two expressions, either of the terms in square brackets would give $t_{x,y}$ in the absence of diagonal tunneling.
+
+\section{How quickly do atoms hop?}
+
+For a given hopping energy, $t$, we would like to know how many sites an atom moves in one hopping time, $t/h$.
+
+Suppose we are working in a non-interacting system and initialize one atom at site $n$ and $t=0$. What is the probability we measure an atom on site $m$ at time $t$? To put this another way, we would like to calculate the real-space Green's function (for a very specific state -- the vacuum state!)
+
+\begin{eqnarray}
+G(n-m, t) &=& -i \ensavg{c_n(0)c^\dag_m(t)}.
+\end{eqnarray}
+
+We expand our initial state in Fourier components
+\begin{eqnarray}
+c^\dag_m \ket{0} &=& \sum_k e^{imk} c^\dag_k \ket{0}\\
+c^\dag_m(t) \ket{0} &=& \sum_k e^{-i \epsilon_k t} e^{-imk} c^\dag_k \ket{0}.
+\end{eqnarray}
+
+Then we have
+\begin{eqnarray}
+\matrixel{0}{c_n(0)c^\dag_m(t)}{0} &=& \sum_k e^{-i \epsilon_k t} e^{-imk} \matrixel{0}{c_nc^\dag_k }{0}\\
+&=& \sum_{k,s} e^{-i \epsilon_k t} e^{-imk}e^{isk} \matrixel{0}{c_nc^\dag_s }{0}\\
+&=& \sum_{k,s} e^{-i \epsilon_k t} e^{-imk}e^{isk} \delta_{ns} \\
+&=& \sum_k e^{-i \epsilon_k t} e^{i(n-m)k}\\
+&=& \sum_k e^{i 2J\cos(k) t} e^{i(n-m)k}
+\end{eqnarray}
+where after evaluating the time dependence of $c^\dag_m(t)$ through a Fourier transform to $k$-space, we Fourier transformed back to position space. Then we inserted the tight-binding dispersion for a 1D lattice with hopping energy $J$.
+
+Now we take advantage of the Jacobi-Anger identity,
+\begin{eqnarray}
+\sum_k e^{i 2J\cos(k) t} e^{i(n-m)k} &=& \sum_{k,l}i^l J_l(2Jt)e^{ilk} e^{i(n-m)k}\\
+&=& \sum_l i^l J_l(2Jt) \sum_k e^{ilk} e^{i(n-m)k}\\
+&=& \sum_l i^l J_l(2Jt) \delta_{n-m+l}\\
+&=& i^{m-n} J_{m-n}(2Jt).
+\end{eqnarray}
+Here $J_l$ is the $l$th Bessel function.
+
+We can estimate the hopping rate several ways. For example, we might say one hop occurs when the probability that the atom is one site away is maximum. The first Bessel function has its first maximum at $J_1'(1.8412) = 0$, which happens when 
+\begin{equation}
+t \approx 0.92 (J/\hbar)^{-1} \approx 0.15 (J/h)^{-1}.
+\end{equation}
+In a single $h/J$ an atom can hop $6-7$ sites!
+
+We can also look at the point when the probability the atom is still at site $n$ vanishes, $J_0(2.4048) = 0$,
+\begin{equation}
+t \approx 1.2 (J/\hbar)^{-1} \approx 0.19 (J/h)^{-1}.
+\end{equation}
+This yields a similar estimate.
+
+\section{Wannier Functions}
+
+Given a set of Bloch wavefunctions, we define the Wannier function on site $\mathbf{R} = \sum_i n_i \mathbf{a}_i$ as
+\begin{eqnarray}
+w_\mathbf{R}(\mathbf{r}) &=& \sum_\mathbf{q} e^{-i \mathbf{q} \cdot \mathbf{R}} \psi_\mathbf{q}(\mathbf{r}).
+\end{eqnarray}
+
+Since we can write the Bloch wavefunctions as the product of an exponential factor and a periodic function, we find
+\begin{eqnarray}
+\psi_\mathbf{q}(\mathbf{r}) &=& e^{i\mathbf{q} \cdot \mathbf{r}} u_\mathbf{q}(\mathbf{r})\\
+w_\mathbf{R}(\mathbf{r}) &=& \sum_\mathbf{q} e^{-i \mathbf{q} \cdot \mathbf{R}} e^{i\mathbf{q} \cdot \mathbf{r}} u_\mathbf{q}(\mathbf{r})\\
+\phi_{\mathbf{R} + \mathbf{R}'}(\mathbf{r} + \mathbf{R}') &=& \phi_\mathbf{R}(\mathbf{r})
+\end{eqnarray}
+
+We can also write the Wannier function in terms of the Bloch wavefunctions in momentum space,
+\begin{eqnarray}
+\psi_\mathbf{q}( \mathbf{r} ) &=& \sum_\mathbf{Q} \psi_\mathbf{q} (\mathbf{Q}) e^{-i(\mathbf{q} - \mathbf{Q}) \cdot \mathbf{r}}\\
+w_\mathbf{R}(\mathbf{r}) &=& \sum_{\mathbf{Q}, \mathbf{q}} \psi_\mathbf{q} (\mathbf{Q}) e^{-i(\mathbf{q} - \mathbf{Q}) \cdot \mathbf{r}} e^{-i \mathbf{q} \cdot \mathbf{R}}.
+\end{eqnarray}
+
+We can ask what the relationship between this wannier function is and a wannier function defined with respect to a shifted coordinate system. We found the effect of such a shift on the Bloch wavefunctions in eq.~\ref{eq:bloch_fn_shifted_origin}. That equation implies
+\begin{eqnarray}
+\tilde{w}_\mathbf{R}(\mathbf{r}) &=& \sum_{\mathbf{Q}, \mathbf{q}} \psi_\mathbf{q}(\mathbf{Q}) e^{i \mathbf{Q} \cdot \mathbf{r}_o} e^{-i(\mathbf{q} - \mathbf{Q}) \cdot \mathbf{r}} e^{-i \mathbf{q} \cdot \mathbf{R}}\\
+\tilde{w}_{\mathbf{R} + \mathbf{r}_o}(\mathbf{r} - \mathbf{r}_o) &=& w_\mathbf{R}(\mathbf{r}) 
+\end{eqnarray}
+
+In making this definition, we are implicitly assuming that the phases of the $\psi_\mathbf{q}(r)$ vary smoothly with $\mathbf{q}$. But if we have obtained our Bloch wavefunctions from a computer simulation, this is not guaranteed to be the case. Before we can compute the sum above, we must fix the phases of our wavefunctions. This process is called \emph{gauge fixing}.
+
+If we are solving our aproblem in momentum space, then the Bloch wavefunctions will be real in the momentum space basis. This means fixing the phase of each wavefunctions amounts to choosing the sign. We need only decide which wavefunctions to multiply to $-1$. To do this, we first order our Bloch wavevectors. In 1D we can order them from largest to smallest. Then we take the overlap of the two wavefunctions, defined as 
+\begin{eqnarray}
+\sum_\mathbf{Q} \psi_{\mathbf{q}_1}(\mathbf{Q}) \psi_{\mathbf{q}_2}(\mathbf{Q}),
+\end{eqnarray}
+ and check whether it is less than or greater than zero. If it is less than zero, we flip the wavefunction.
+
+Note that this is not the inner product of two wavefunctions, as that would be defined
+\begin{eqnarray}
+\matrixel{\phi}{\mathbb{I}}{\psi} &=& \int_\mathbb{R} d\mathbf{k} \ \phi^*(\mathbf{k})\psi(\mathbf{k})\\
+&=&  \sum_\mathbf{Q} \int_{\text{BZ}} d\mathbf{q} \ \phi^*(\mathbf{q} - \mathbf{Q}) \psi(\mathbf{q} - \mathbf{Q})\\
+\phi(\mathbf{q} - \mathbf{Q}) &=& \psi_{\mathbf{q}_1}(\mathbf{Q}) \delta(\mathbf{q} - \mathbf{q}_1)\\
+\psi(\mathbf{q} - \mathbf{Q}) &=& \psi_{\mathbf{q}_2}(\mathbf{Q}) \delta(\mathbf{q} - \mathbf{q}_2).
+\end{eqnarray}
+ 
+ In fact, we can see that the Bloch wavevectors are orthogonal because they are never non-zero at the same $\mathbf{k} = \mathbf{q} - \mathbf{Q}$.
+ 
+In 2D, we can pick some convenient ordering. On a square lattice we might begin with $\mathbf{q} = (-\pi/2, \pi/2)$ and fix the phases along the line $\mathbf{q} = (q_x, \pi/2)$ using the same prescription as in 1D. Then we can fix phases along each of the lines $\mathbf{q} = (q_o, q_y)$. 
+
+From the Wannier function, we can estimate the tunneling tight-binding parameter. We can also estimate the interaction and density-dependent tunneling parameters in a pseudopotential approximation where we suppose atoms interact with the potential $\frac{4\pi a_s \hbar^2}{m} \delta(\mathbf{r})$.
+
+\begin{eqnarray}
+\mathcal{H}' &=& - \sum_{i,j, \sigma} t^d_{ij} c_{i\sigma}^\dag (n_{i -\sigma} + n_{j -\sigma}) c_{j\sigma}\\
+t_{ij} &=& -\int_\mathbb{R} d\mathbf{r} \ w_{\mathbf{R}_i}(\mathbf{r})\left(-\frac{\hbar^2}{2m} \nabla^2 + V(\mathbf{r}) \right) w_{\mathbf{R}_j}(\mathbf{r})\\
+&=& -\int_\mathbb{R} d\mathbf{r} \ w_{\mathbf{0}}(\mathbf{r} + \mathbf{R}_i - \mathbf{R}_j)\left(-\frac{\hbar^2}{2m} \nabla^2 + V(\mathbf{r}) \right) w_{\mathbf{0}}(\mathbf{r})\\
+U &=& \frac{4 \pi a_s \hbar^2}{m} \int_{\mathbb{R}^3} d\mathbf{r} \left| w_{\mathbf{0}}(\mathbf{r}) \right|^4\\
+&=& \frac{4 \pi a_s \hbar^2}{m} \sqrt{\frac{m\omega_z}{h}} \int_{\mathbb{R}^2} d\mathbf{r} \left| w_{\mathbf{0}}(\mathbf{r}) \right|^4\\
+t^d_{ij} &=& \frac{4 \pi a_s \hbar^2}{m} \int_{\mathbb{R}^3} d\mathbf{r} \ w^*_{\mathbf{R}_i}(\mathbf{r}) w^*_{\mathbf{R}_j}(\mathbf{r}) w_{\mathbf{R}_j}(\mathbf{r})^2\\
+&=& \frac{4 \pi a_s \hbar^2}{m} \int_{\mathbb{R}^3} d\mathbf{r} \ w^*_{\mathbf{0}}(\mathbf{r} + \mathbf{R}_i - \mathbf{R}_j) w^*_{\mathbf{0}}(\mathbf{r}) w_{\mathbf{0}}(\mathbf{r})^2 \\
+&=& \frac{4 \pi a_s \hbar^2}{m} \sqrt{\frac{m\omega_z}{h}} \int_{\mathbb{R}^2} d\mathbf{r} \ w^*_{\mathbf{0}}(\mathbf{r} + \mathbf{R}_i - \mathbf{R}_j) w^*_{\mathbf{0}}(\mathbf{r}) w_{\mathbf{0}}(\mathbf{r})^2.
+\end{eqnarray}
+
+Here we include a negative sign on the hopping matrix element to match the convention that the kinetic term is $\mathcal{H} = -t \sum_k \epsilon_k n_k$. For $U$ and $t^d_{ij}$ we have assumed we are working in quasi-$2D$. The $z$ direction is assumed to have a trapping frequency $\omega_z$ which is much larger than other energy scales in the problem. In this situation, we can write
+\begin{eqnarray}
+w_3(\mathbf{r}) &=& \left(\frac{m\omega}{\pi\hbar} \right)^{1/4}e^{-m\omega_z z^2 /2\hbar} w_2(\mathbf{x}, \mathbf{y})\\
+\int_{\mathbb{R}^3} d\mathbf{r} \ \left| w_3(\mathbf{r}) \right|^4 &=&  \sqrt{\frac{m\omega_z}{h}} \int_{\mathbb{R}^2} d\mathbf{r} \ \left| w_2(\mathbf{r}) \right|^4
+\end{eqnarray}
+where $w_3(\mathbf{r})$ and $w_2(\mathbf{r})$ are the $3D$ and $2D$ Wannier functions respectively.
+
+\section{Lattice in Harmonic Traps}
+
+
+\section{Quasimomentum distribution}
+
+Suppose we have a wannier function $w_j$ for the lowest band of
+
+\end{document}

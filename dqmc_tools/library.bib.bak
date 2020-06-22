@@ -1,0 +1,41 @@
+% Encoding: UTF-8
+
+@Article{Santos2003,
+  author       = {Raimundo R. dos Santos},
+  title        = {Introduction to Quantum Monte Carlo simulations for fermionic systems},
+  abstract     = {We tutorially review the determinantal Quantum Monte Carlo method for fermionic systems, using the Hubbard model as a case study. Starting with the basic ingredients of Monte Carlo simulations for classical systems, we introduce aspects such as importance sampling, sources of errors, and finite-size scaling analyses. We then set up the preliminary steps to prepare for the simulations, showing that they are actually carried out by sampling discrete Hubbard-Stratonovich auxiliary fields. In this process the Green's function emerges as a fundamental tool, since it is used in the updating process, and, at the same time, it is directly related to the quantities probing magnetic, charge, metallic, and superconducting behaviours. We also discuss the as yet unresolved "minus-sign problem", and two ways to stabilize the algorithm at low temperatures.},
+  date         = {2003-03-26},
+  eprint       = {cond-mat/0303551v1},
+  eprintclass  = {cond-mat.str-el},
+  eprinttype   = {arXiv},
+  file         = {:http\://arxiv.org/pdf/cond-mat/0303551v1:PDF},
+  journaltitle = {Braz. J. Phys. 33, 36 (2003)},
+  keywords     = {cond-mat.str-el},
+}
+
+@Article{Scalapino1981,
+  author    = {D. J. Scalapino and R. L. Sugar},
+  journal   = {Physical Review B},
+  title     = {Monte Carlo calculations of coupled boson-fermion systems. {II}},
+  year      = {1981},
+  month     = {oct},
+  number    = {8},
+  pages     = {4295--4308},
+  volume    = {24},
+  doi       = {10.1103/physrevb.24.4295},
+  publisher = {American Physical Society ({APS})},
+}
+
+@Article{Varney2009,
+  author    = {C. N. Varney and C.-R. Lee and Z. J. Bai and S. Chiesa and M. Jarrell and R. T. Scalettar},
+  journal   = {Physical Review B},
+  title     = {Quantum Monte Carlo study of the two-dimensional fermion Hubbard model},
+  year      = {2009},
+  month     = {aug},
+  number    = {7},
+  volume    = {80},
+  doi       = {10.1103/physrevb.80.075116},
+  publisher = {American Physical Society ({APS})},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
