@@ -1,3 +1,9 @@
+"""
+Tools for simulating various features of 1D and 2D optical lattice potentials and optical lattices in
+the presence of harmonic trapping potentials, and single-particle Hamiltonians.
+Useful for computing band structures, tightbinding parameters, etc.
+"""
+
 from __future__ import print_function
 import math
 import time
@@ -14,7 +20,6 @@ from mpl_toolkits.mplot3d import Axes3D
 import fermi_gas as fg
 
 # solve lattice problem in momentum space
-
 def lattice_single_particle(b1, b2, v_fourier_components, fourier_inds1, fourier_inds2,
                             n1_sites=21, n2_sites=21, n1_recp_max=10, n2_recp_max=10, print_results=1):
     """
@@ -40,6 +45,13 @@ def lattice_single_particle(b1, b2, v_fourier_components, fourier_inds1, fourier
     Er = hbar^2 * (entries/2)^2 / (2m),
     where b1 and b2 are reciprocal vectors of the lattice.
 
+    For example,
+    b1 = np.array([2 * np.pi, 0])
+    b2 = np.array([0, 2 * np.pi])
+    fourier_inds1 = [0, 1, -1, 0,  0]
+    v_fourier_inds2 = [0, 0,  0, 1, -1]
+    v_fourier_components = [0, 0.25, 0.25, 0.25, 0.25]
+
     :param b1: Reciprocal basis vector, b1
     :param b2: Second reciprocal basis vector, b2
     :param v_fourier_components: A list of Fourier components of the lattice potential
@@ -53,32 +65,18 @@ def lattice_single_particle(b1, b2, v_fourier_components, fourier_inds1, fourier
     (2 * n1_recp_max)
     :param n2_recp_max:
 
-    :return:
-    eigvals: A N_bz x N_recp array of eigenvalues. eigvals[ii, jj] is an eigenvalue in the jjth band associated with
+    :return eigvals: A N_bz x N_recp array of eigenvalues. eigvals[ii, jj] is an eigenvalue in the jjth band associated with
     the iith vector in the Brillouin zone.
-
-    eigvects: A N_bz x N_recp x N_recp array of eigenvectors written in a momentum space basis.
+    :return eigvects: A N_bz x N_recp x N_recp array of eigenvectors written in a momentum space basis.
     eigvects[ii, jj, kk] is the jjth component of the eigenvector in the kkth band associated with the iith vector in
     the Brillouin zone. This eigenvector has eigenvalue eigvals[ii, kk]. It is associated with the wavevector
     bz_vects[:, ii] - recp_vects[:, jj]. The bloch wavefunction can be obtained from this as
     Bloch[ii, kk](r) = \sum_{jj} exp(ij * (bz_vects[:, ii] - recp_vects[:, jj]) * r) * eigvects[ii, jj, kk]
-
-    bz_vects: A 2 x N_bz array of Brillouin zone vectors
-
-    recp_vects: A 2 x N_recp array of reciprocal lattice vectors
-
-    :examples:
-
-    b1 = np.array([2 * np.pi, 0])
-    b2 = np.array([0, 2 * np.pi])
-    fourier_inds1 = [0, 1, -1, 0,  0]
-    v_fourier_inds2 = [0, 0,  0, 1, -1]
-    v_fourier_components = [0, 0.25, 0.25, 0.25, 0.25]
-
-
+    :return bz_vects: A 2 x N_bz array of Brillouin zone vectors
+    :return recp_vects: A 2 x N_recp array of reciprocal lattice vectors
     """
 
-    t_start = time.clock()
+    t_start = time.time()
 
     ####################################
     # checks inputs
@@ -213,7 +211,7 @@ def lattice_single_particle(b1, b2, v_fourier_components, fourier_inds1, fourier
 
         eigvals[ii, :], eigvects[ii, :, :] = np.linalg.eigh(epsilons + vkq)
 
-    t_end = time.clock()
+    t_end = time.time()
     if print_results:
         print("Solving bandstructure, diagonalizing %d %dx%d matrices took %0.2fs"
           % (bz_vects.shape[1], epsilons.shape[0], epsilons.shape[0], t_end - t_start))
@@ -227,7 +225,6 @@ def get_bloch_wfns(eigvects_band, bz_vects, recp_vects, xpts, ypts, vmin_positio
     Compute bloch wavefunctions and wannier function at real space points given the solution to the lattice single-particle
     problem. Most of the necessary arguments to this function are generated using the lattice_single_particle function.
 
-
     :param eigvects: An N_bz x N_recp x N_recp array of eigenvectors written in a momentum space basis.
     eigvects[ii, jj, kk] is the jjth component of the eigenvector in the kkth band associated with the iith vector in
     the Brillouin zone. This eigenvector has eigenvalue eigvals[ii, kk]. It is associated with the wavevector
@@ -238,16 +235,15 @@ def get_bloch_wfns(eigvects_band, bz_vects, recp_vects, xpts, ypts, vmin_positio
     :param xpts: A NumPy array of xpts. With ypts, this is used create a grid on which the Wannier function is computed
     :param ypts: A NumPy array of ypts.
     :param band_index:
-    :return:
-    bloch_wfuns:
-    wannier_fn:
-    x_grid:
-    y_grid:
+    :return bloch_wfuns:
+    :return wannier_fn:
+    :return x_grid:
+    :return y_grid:
     """
 
     # TODO: could save a lot of time by using only symmetric part of function
 
-    t_start = time.clock()
+    t_start = time.time()
     # calculate overlaps between neighboring bloch states. Note that these eigenvectors are real (in this momentum
     # space representation) by construction
     overlaps = np.sum(eigvects_band[0:-1, :] * eigvects_band[1:], 1)
@@ -322,9 +318,9 @@ def get_bloch_wfns(eigvects_band, bz_vects, recp_vects, xpts, ypts, vmin_positio
         y_int = (wannier_probability).flatten()
 
     norm_sqr = np.trapz(y_int, xpts, axis=0)
-    wannier_fn  = wannier_fn / np.sqrt(norm_sqr)
+    wannier_fn = wannier_fn / np.sqrt(norm_sqr)
 
-    t_end = time.clock()
+    t_end = time.time()
     if print_results:
         print("Computing real-space Bloch functions and wannier functions at %d space points took %0.2fs"
           % (x_grid.size, t_end - t_start))
@@ -349,8 +345,7 @@ def get_potential_realspace(recp_basis_vect1, recp_basis_vect2, v_fourier_compon
     :param v_fourier_indices2:
     :param xpts: 1D array of xpts.
     :param ypts: 1D array of ypts.
-    :return:
-    v_real_space: a ypts.size x xpts.size matrix, where V[i, j] = V(x_j, y_i)
+    :return v_real_space: a ypts.size x xpts.size matrix, where V[i, j] = V(x_j, y_i)
     """
     # create grid of real space points
     x_grid, y_grid = np.meshgrid(xpts, ypts)
@@ -387,7 +382,7 @@ def get_hopping_bw(gband_2d, mode='2d'):
     """
     Estimate hopping parameters from band structure by taking differences between points in the band
     :param gband_2d: num_ky x num_kx array of energies for the ground band
-    :return:
+    :return hoppings:
     """
 
     center_index = int((gband_2d.shape[0] - 1) / 2)
@@ -413,8 +408,7 @@ def get_hopping_bsfit(kxs_2d, kys_2d, energies_2d, ax=1, ay=1):
     :param energies_2d: band energies arranged in a 2d grid, as prodced by oned_2_twod_kvects
     :param ax: lattice constant along x-direction
     :param ay:
-    :return:
-    fit_params = [tunn, ty, td, tx_nn, ty_nn, runner_offset]
+    :return fit_params = [tunn, ty, td, tx_nn, ty_nn, runner_offset]
     Here tunn and ty are nearest neighbor hopping in the x and y directions. td is diagonal hopping along the x+y and x-y
     directions. tx_nn and ty_nn are next-nearest-neighbor hopping (two lattice sites in the x or y directions).
 
@@ -473,16 +467,13 @@ def get_hopping_wannier(wannier_fn, potential, xpts, ypts, dx=1., dy=0., print_r
     :param wannier_fn: 2D complex numpy array, where W[i,j] = W(x_j, y_i)
     :param xpts: 1D array. must be equally spaced and spacing must evenly divide ax
     :param ypts: 1D array.
-    :return:
-    hopping:
-
-    density_dep_hopping:
-
+    :return hopping:
+    :return density_dep_hopping:
     """
 
     #TODO: ability to shift by non-integer distances?
 
-    t_start = time.clock()
+    t_start = time.time()
 
     # #####################################
     # Get wannier 2nd_derivative
@@ -659,7 +650,7 @@ def get_hopping_wannier(wannier_fn, potential, xpts, ypts, dx=1., dy=0., print_r
     else:
         raise Exception()
 
-    t_end = time.clock()
+    t_end = time.time()
     if print_results:
         print("Calculating hopping from wannier function with %dx%d points took %0.2f" % (xpts.size + 2, ypts.size + 2, t_end - t_start))
 
@@ -672,7 +663,7 @@ def get_interaction_wannier(wannier_fn, x_grid, y_grid):
     :param wannier_fn: Wannier function as a 2D array
     :param x_grid: grid of xpts
     :param y_grid: grid of ypts
-    :return:
+    :return interaction:
     """
     wannier_probability = np.abs(wannier_fn) ** 2
     xpts = x_grid[0, :].flatten()
@@ -690,9 +681,10 @@ def get_interaction_wannier(wannier_fn, x_grid, y_grid):
 
 #
 def project_to_wannier(states, xs_full, wannier_fn, xs, print_results=0):
+
     # xs in units of lattice sites and equispaced
 
-    t_start = time.clock()
+    t_start = time.time()
 
     # ensure correct shapes
     states = np.asarray(states)

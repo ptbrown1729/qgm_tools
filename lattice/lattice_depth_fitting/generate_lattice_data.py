@@ -1,8 +1,13 @@
+"""
+Generate useful band structure information vs. lattice depth for a range of lattice retroreflection attenuation
+strengths at a single angle. Store this data in a text file for later use.
+"""
+
 import numpy as np
 import lattice_single_particle as latt
 
 # lattice parameters
-fname_out = "C:\\Users\\Peter\\Documents\\MATLAB\\PeterB-analysis\\lattice\\lattice_data2.txt"
+fname_out = r"lattice_data2.txt"
 theta = 91.6267
 alpha = 0.
 # paramters to loop over

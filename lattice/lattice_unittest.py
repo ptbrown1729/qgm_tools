@@ -1,7 +1,8 @@
+"""
+unittests for lattice_single_particle.py
+run unit tests from the command prompt via python -m unittest hubbard_test
+"""
 import unittest
-
-# run unit tests from the command prompt via python -m unittest hubbard_test
-
 import numpy as np
 import lattice_single_particle as latt
 
@@ -229,8 +230,6 @@ class TestLattice(unittest.TestCase):
             # print(np.round(np.abs(ts_bs[0] - ts_wann[0]), 5))
             self.assertTrue( np.round(np.abs(ts_bs[0] - ts_wann[0]), 5) == 0, 'hopping calculated from band structure vs. wannier function differed by more than 0.5e-5 for depth %d' % depth)
 
-
-
     # 2D lattice tests
     def test_2d_separable_latt(self):
         """
@@ -359,8 +358,6 @@ class TestLattice(unittest.TestCase):
         self.assertTrue(np.round(tx_fr, 2) == 0)
         self.assertTrue(np.round(ty_fr, 2) == 0)
         self.assertTrue(np.round(td_fr, 2) == 0)
-
-
 
     # other tests
     def test_real_space_potential(self):

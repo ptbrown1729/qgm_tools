@@ -1,3 +1,7 @@
+"""
+Small test script to compare hopping calculated several different ways for the D4 lattice
+"""
+
 from lattice_single_particle import *
 
 theta = 91.6267
