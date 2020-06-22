@@ -2,7 +2,8 @@
 This repository contains various tools I developed while studying the Fermi-Hubbard model using a quantum gas microscope. Various functions were written by other members of the Bakr lab at Princeton University.
 
 ## lib
-various useful functions for image processing, fitting, data analysis etc.
+various useful functions for image processing, fitting, data analysis etc. Most of the Matlab code in other folders
+of this repository depends on the functions found here.
 
 ## qgm_analysis
 code intended to analyze output of quantum gas microscope experiment. The most important file is [DataFolder.m](qgm_analysis/DataFolder.m),
@@ -48,14 +49,14 @@ the band structure (from e.g. intensity modulation spectroscopy) are found in [l
 contains information about the "standard" 2D optical lattice, as well as the D4 lattice that we are more interested in
 here. [library.bib](lattice/library.bib) is a bibtex file which contains bibliographic information for useful references for
 some of the calculations included here. [fermi_gas.py](lattice/fermi_gas.py) performs useful calculations of correlators
-and etc. for a non-interacting Fermi gas in a lattice. Complimentary matlab functions can be found in [lib/non-int-fg](lib/non-int-fg).
+and etc. for a non-interacting Fermi gas in a lattice. Complimentary Matlab functions can be found in [lib/non-int-fg](lib/non-int-fg).
 [lattice_unittest.py](lattice/lattice_unittest.py) has tests to verify certain functions in lattice_single_particle.py
   
 ## gpib_devs
-code for interacting with GPIB devices using matlab.
+code for interacting with GPIB devices using Matlab.
 
 ## dqmc_tools
-code used to automate running QuestQMC on the Princeton Feynman cluster, and parse the results.
+code used to automate running [QuestQMC](http://quest.ucdavis.edu/) on the [Princeton Feynman cluster](http://physics.princeton.edu/it/cluster/), and parse the results.
 
 ## optical-potentials
 calculation of trap depths, atomic polarizabilities, etc.
